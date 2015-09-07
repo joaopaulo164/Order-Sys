@@ -1,0 +1,15 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'manager/style.css' %}" />
+
+{% if all_historico_list %}
+    <ul>
+    <h1>ID do historico</h1>
+    {% for historico in all_historico_list %}
+        <li><a href="{% url 'manager:detail' historico.id %}">{{ historico.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nao existe historico disponivel.</p>
+{% endif %}
+{% load staticfiles %}

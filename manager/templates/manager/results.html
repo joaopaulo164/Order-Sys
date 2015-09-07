@@ -1,0 +1,9 @@
+<h1>{{ historico.id }}</h1>
+
+<ul>
+{% for servico in historico.servico_set.all %}
+    <li>{{ servico.nome }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'manager:detail' historico.id %}">Ver de novo?</a>

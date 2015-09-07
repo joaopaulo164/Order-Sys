@@ -2,5 +2,12 @@
 <ul>
     <li>Clinte: {{ historico.cliente }}</li>
     <li>Funcionario: {{ historico.funcionario }}</li>
+    <li>Abertura Chamado: {{ historico.data_chamado }}</li>
+    <li>Fechamento do chamado: {{ historico.data_realizacao }}</li>
     <li>Valor: {{ historico.valor_total }}</li>
+    <li>Observacao: {{ historico.observacao }}</li>
+    <b>Servicos:</b>
+    {% for servico in historico.servico_set.all %}
+        {{ servico.nome }},
+    {% endfor %}
 </ul>

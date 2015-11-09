@@ -15,6 +15,11 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome
 
+    def ident(self):
+        ident = str(self.id)
+        return ident
+    ident.short_description = 'ID'
+
 class Funcionario(models.Model):
     nome = models.CharField(max_length=200, null=False)
     sobrenome = models.CharField(max_length=200, null=False)
@@ -30,12 +35,31 @@ class Funcionario(models.Model):
     def __str__(self):
         return self.nome
 
+    def ident(self):
+        ident = str(self.id)
+        return ident
+    ident.short_description = 'ID'
+
+
+class Servico(models.Model):
+    nome = models.CharField(max_length=200, null=False)
+    descricao = models.TextField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.nome
+
+    def ident(self):
+        ident = str(self.id)
+        return ident
+    ident.short_description = 'ID'
+
 class Historico(models.Model):
     cliente = models.ForeignKey(Cliente)
     funcionario = models.ForeignKey(Funcionario)
+    servicos = models.ManyToManyField(Servico)
     data_chamado = models.DateTimeField(default=timezone.now, null=False)
     data_realizacao = models.DateTimeField(blank=True, null=True)
-    valor_total = models.DecimalField(max_digits=10, decimal_places=2)
     observacao = models.TextField()
 
     def salvar(self):
@@ -51,12 +75,12 @@ class Historico(models.Model):
         ident = str(self.id)
         return ident
 
-
-class Servico(models.Model):
-    historico = models.ForeignKey(Historico)
-    nome = models.CharField(max_length=200, null=False)
-    descricao = models.TextField()
-    valor = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.nome
+    def valor(self):
+        soma = float(0)
+        valores = self.servicos.values('valor')
+        tam = len(valores)
+        x= 0
+        for x in range(tam):
+            soma = float(soma) + float(self.servicos.values().__getitem__(x).get('valor'))
+        #self.valor_total = soma
+        return soma
